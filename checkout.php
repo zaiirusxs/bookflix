@@ -10,20 +10,20 @@ if (!isset($user_id)) {
 
 if (isset($_POST['checkout'])) {
 
-  $name = mysqli_real_escape_string($conn, $_POST['firstname']);
+  $name = $_POST['firstname'];
   $number = $_POST['number'];
-  $email = mysqli_real_escape_string($conn, $_POST['email']);
-  $method = mysqli_real_escape_string($conn, $_POST['method']);
-  $address = mysqli_real_escape_string($conn, $_POST['address']);
-  $city = mysqli_real_escape_string($conn, $_POST['city']);
-  $state = mysqli_real_escape_string($conn, $_POST['state']);
-  $country = mysqli_real_escape_string($conn, $_POST['country']);
-  $pincode = mysqli_real_escape_string($conn, $_POST['pincode']);
-  $full_address = mysqli_real_escape_string($conn, $_POST['address'] . ', ' . $_POST['city'] . ', ' . $_POST['state'] . ', ' . $_POST['country'] . ' - ' . $_POST['pincode']);
+  $email = $_POST['email'];
+  $method = $_POST['method'];
+  $address = $_POST['address'];
+  $city = $_POST['city'];
+  $state = $_POST['state'];
+  $country = $_POST['country'];
+  $pincode = $_POST['pincode'];
+  $full_address = $_POST['address'] . ', ' . $_POST['city'] . ', ' . $_POST['state'] . ', ' . $_POST['country'] . ' - ' . $_POST['pincode'];
   $placed_on = date('d-M-Y');
 
   $cart_total = 0;
-  $cart_products[] = '';
+  $cart_products = [];
   if (empty($name)) {
     $message[] = 'Please Enter Your Name';
   } elseif (empty($email)) {
@@ -42,62 +42,57 @@ if (isset($_POST['checkout'])) {
     $message[] = 'Please Enter your area pincode';
   } else {
 
-    $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
-    if (mysqli_num_rows($cart_query) > 0) {
-      while ($cart_item = mysqli_fetch_assoc($cart_query)) {
+    $stmt = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
+    $stmt->execute([$user_id]);
+    if ($stmt->rowCount() > 0) {
+      while ($cart_item = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $cart_products[] = $cart_item['name'] . ' #' . $cart_item['book_id'] . ',(' . $cart_item['quantity'] . ') ';
-        $quantity=$cart_item['quantity'];
-        $unit_price=$cart_item['price'];
+        $quantity = $cart_item['quantity'];
+        $unit_price = $cart_item['price'];
         $cart_books = $cart_item['name'];
         $sub_total = ($cart_item['price'] * $cart_item['quantity']);
         $cart_total += $sub_total;
-      
       }
     }
-  
 
-  $total_books = implode(' ', $cart_products);
+    $total_books = implode(' ', $cart_products);
 
-  $order_query = mysqli_query($conn, "SELECT * FROM `confirm_order` WHERE name = '$name' AND number = '$number' AND email = '$email' AND payment_method = '$method' AND address = '$address' AND total_books = '$total_books' AND total_price = '$cart_total'") or die('query failed');
+    $stmt = $conn->prepare("SELECT * FROM `confirm_order` WHERE name = ? AND number = ? AND email = ? AND payment_method = ? AND address = ? AND total_books = ? AND total_price = ?");
+    $stmt->execute([$name, $number, $email, $method, $address, $total_books, $cart_total]);
 
-
-    if (mysqli_num_rows($order_query) > 0) {
+    if ($stmt->rowCount() > 0) {
       $message[] = 'order already placed!';
-    } 
-    else {
-      mysqli_query($conn, "INSERT INTO `confirm_order`(user_id, name, number, email, payment_method, address,total_books, total_price, order_date) VALUES('$user_id','$name', '$number', '$email','$method', '$full_address', '$total_books', '$cart_total', '$placed_on')") or die('query failed');
+    } else {
+      $stmt = $conn->prepare("INSERT INTO `confirm_order`(user_id, name, number, email, payment_method, address, total_books, total_price, order_date) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      $stmt->execute([$user_id, $name, $number, $email, $method, $full_address, $total_books, $cart_total, $placed_on]);
 
-      $conn_oid= $conn->insert_id;
+      $conn_oid = $conn->lastInsertId();
       $_SESSION['id'] = $conn_oid;
-      // $select_book = mysqli_query($conn, "SELECT * FROM `confirm_order`") or die('query failed');
-      //   if(mysqli_num_rows($select_book) > 0){
-      //     $fetch_book = mysqli_fetch_assoc($select_book);
-      //     $orders_id= $fetch_book['order_id'];
-      //   }
 
-        $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
-        if (mysqli_num_rows($cart_query) > 0) {
-          while ($cart_item = mysqli_fetch_assoc($cart_query)) {
-            $cart_products[] = $cart_item['name'] . ' #' . $cart_item['book_id'] . ',(' . $cart_item['quantity'] . ') ';
-            $quantity=$cart_item['quantity'];
-            $unit_price=$cart_item['price'];
-            $cart_books = $cart_item['name'];
-            $sub_total = ($cart_item['price'] * $cart_item['quantity']);
-            $cart_total += $sub_total;
-          
-            mysqli_query($conn, "INSERT INTO `orders`(user_id,id,address,city,state,country,pincode,book,quantity,unit_price,sub_total) VALUES('$user_id','$conn_oid','$address','$city','$state','$country','$pincode','$cart_books','$quantity','$unit_price','$sub_total')") or die('query failed');
-          }
+      $stmt = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
+      $stmt->execute([$user_id]);
+      if ($stmt->rowCount() > 0) {
+        while ($cart_item = $stmt->fetch(PDO::FETCH_ASSOC)) {
+          $cart_products[] = $cart_item['name'] . ' #' . $cart_item['book_id'] . ',(' . $cart_item['quantity'] . ') ';
+          $quantity = $cart_item['quantity'];
+          $unit_price = $cart_item['price'];
+          $cart_books = $cart_item['name'];
+          $sub_total = ($cart_item['price'] * $cart_item['quantity']);
+          $cart_total += $sub_total;
+
+          $stmt = $conn->prepare("INSERT INTO `orders`(user_id, id, address, city, state, country, pincode, book, quantity, unit_price, sub_total) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+          $stmt->execute([$user_id, $conn_oid, $address, $city, $state, $country, $pincode, $cart_books, $quantity, $unit_price, $sub_total]);
         }
+      }
 
       $message[] = 'order placed successfully!';
-      mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+      $stmt = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
+      $stmt->execute([$user_id]);
     }
   }
 }
 
 ?>
-
-
 
 <!DOCTYPE html>
 <html>
@@ -310,9 +305,10 @@ if (isset($_POST['checkout'])) {
                   <h4>Books In Cart</h4>
                   <?php
                   $grand_total = 0;
-                  $select_cart = mysqli_query($conn, "SELECT * FROM `cart`") or die('query failed');
-                  if (mysqli_num_rows($select_cart) > 0) {
-                    while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
+                  $stmt = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
+                  $stmt->execute([$user_id]);
+                  if ($stmt->rowCount() > 0) {
+                    while ($fetch_cart = $stmt->fetch(PDO::FETCH_ASSOC)) {
                       $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
                       $grand_total += $total_price;
                   ?>

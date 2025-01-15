@@ -8,17 +8,16 @@ if(!isset($admin_id)){
    header('location:login.php');
 }
 
-
-$users_no = $conn->query("SELECT * FROM users_info ") or die('query failed');
-$usercount = mysqli_num_rows( $users_no );
-$admin_no = $conn->query("SELECT * FROM users_info WHERE user_type='Admin' ") or die('query failed');
-$admin_count = mysqli_num_rows( $admin_no );
-$books_no = $conn->query("SELECT * FROM book_info ") or die('query failed');
-$bookscount = mysqli_num_rows( $books_no );
-$orders = $conn->query("SELECT * FROM confirm_order ") or die('query failed');
-$orders_count = mysqli_num_rows( $orders );
-$msg_no = $conn->query("SELECT * FROM msg ") or die('query failed');
-$msgcount = mysqli_num_rows( $msg_no );
+$users_no = $conn->query("SELECT * FROM users_info") or die('query failed');
+$usercount = $users_no->rowCount();
+$admin_no = $conn->query("SELECT * FROM users_info WHERE user_type='Admin'") or die('query failed');
+$admin_count = $admin_no->rowCount();
+$books_no = $conn->query("SELECT * FROM book_info") or die('query failed');
+$bookscount = $books_no->rowCount();
+$orders = $conn->query("SELECT * FROM confirm_order") or die('query failed');
+$orders_count = $orders->rowCount();
+$msg_no = $conn->query("SELECT * FROM msg") or die('query failed');
+$msgcount = $msg_no->rowCount();
 
 ?>
 
@@ -41,9 +40,9 @@ $msgcount = mysqli_num_rows( $msg_no );
       <div class="card" style="width: 15rem">
       <?php
             $total_pendings = 0;
-            $select_pending = mysqli_query($conn, "SELECT total_price FROM `confirm_order` WHERE payment_status = 'pending'") or die('query failed');
-            if(mysqli_num_rows($select_pending) > 0){
-               while($fetch_pendings = mysqli_fetch_assoc($select_pending)){
+            $select_pending = $conn->query("SELECT total_price FROM `confirm_order` WHERE payment_status = 'pending'") or die('query failed');
+            if($select_pending->rowCount() > 0){
+               while($fetch_pendings = $select_pending->fetch(PDO::FETCH_ASSOC)){
                   $total_price = $fetch_pendings['total_price'];
                   $total_pendings += $total_price;
                };
@@ -64,9 +63,9 @@ $msgcount = mysqli_num_rows( $msg_no );
       <div class="card" style="width: 15rem">
       <?php
             $total_completed = 0;
-            $select_completed = mysqli_query($conn, "SELECT total_price FROM `confirm_order` WHERE payment_status = 'completed'") or die('query failed');
-            if(mysqli_num_rows($select_completed) > 0){
-               while($fetch_completed = mysqli_fetch_assoc($select_completed)){
+            $select_completed = $conn->query("SELECT total_price FROM `confirm_order` WHERE payment_status = 'completed'") or die('query failed');
+            if($select_completed->rowCount() > 0){
+               while($fetch_completed = $select_completed->fetch(PDO::FETCH_ASSOC)){
                   $total_price = $fetch_completed['total_price'];
                   $total_completed += $total_price;
                };

@@ -1,25 +1,33 @@
 <?php
     include 'config.php';
     if(isset($_POST['submit'])) {
-      $name = mysqli_real_escape_string($conn, $_POST['Name']);
-      $Sname = mysqli_real_escape_string($conn, $_POST['Sname']);
-      $email = mysqli_real_escape_string($conn, $_POST['email']);
-      $password = mysqli_real_escape_string($conn, ($_POST['password']));
-      $cpassword = mysqli_real_escape_string($conn, ($_POST['cpassword']));
-      $user_type = $_POST['user_type'];
+        $name = $_POST['Name'];
+        $Sname = $_POST['Sname'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $cpassword = $_POST['cpassword'];
+        $user_type = $_POST['user_type'];
 
-      $select_users = $conn->query("SELECT * FROM users_info WHERE email = '$email'") or die('query failed');
+        $stmt = $conn->prepare("SELECT * FROM users_info WHERE email = :email");
+        $stmt->execute(['email' => $email]);
 
-      if(mysqli_num_rows($select_users)!=0){
-        $message[]='User Already exits!';
-      }else{
-        if($password !=$cpassword){
-          $message[] = 'Confirm password not matched.';
-        }else{
-          mysqli_query($conn, "INSERT INTO users_info(`name`, `surname`, `email`, `password`, `user_type`) VALUES('$name','$Sname','$email','$password','$user_type')") or die('Query failed');
-          $message[]='Registration Done Successfully';
+        if($stmt->rowCount() != 0){
+            $message[] = 'User Already exists!';
+        } else {
+            if($password != $cpassword){
+                $message[] = 'Confirm password not matched.';
+            } else {
+                $stmt = $conn->prepare("INSERT INTO users_info(`name`, `surname`, `email`, `password`, `user_type`) VALUES(:name, :surname, :email, :password, :user_type)");
+                $stmt->execute([
+                    'name' => $name,
+                    'surname' => $Sname,
+                    'email' => $email,
+                    'password' => $password,
+                    'user_type' => $user_type
+                ]);
+                $message[] = 'Registration Done Successfully';
+            }
         }
-      }
     }
 ?>
 
@@ -29,21 +37,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/register.css  " />
+    <link rel="stylesheet" href="css/register.css" />
 
     <title>Register</title>
     <style>
       .container2 {
-  display: flex;
-  justify-content: center;
-  background-image: linear-gradient(45deg,
-    rgba(0, 0, 3, 0.1),
-    rgba(0, 0, 0, 0.5)), url(../bgimg/2.jpg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  height: 98vh;
-}
+        display: flex;
+        justify-content: center;
+        background-image: linear-gradient(45deg,
+          rgba(0, 0, 3, 0.1),
+          rgba(0, 0, 0, 0.5)), url(../bgimg/2.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        height: 98vh;
+      }
     </style>
     <style>
        .container form .link{
@@ -81,7 +89,6 @@
          <p>Already have a Account? <br> <a class="link" href="login.php">Login</a><a class="link" href="index.php">Back</a></p>
       </form>
     </div>
-
 
     <script>
 setTimeout(() => {

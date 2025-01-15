@@ -14,13 +14,15 @@ if (isset($_POST['add_to_cart'])) {
     $book_image = $_POST['book_image'];
     $book_price = $_POST['book_price'];
     $book_quantity = $_POST['quantity'];
-    $total_price =number_format($book_price * $book_quantity);
-    $select_book = $conn->query("SELECT * FROM cart WHERE name= '$book_name' AND user_id='$user_id' ") or die('query failed');
+    $total_price = number_format($book_price * $book_quantity);
+    $stmt = $conn->prepare("SELECT * FROM cart WHERE name= ? AND user_id= ?");
+    $stmt->execute([$book_name, $user_id]);
 
-    if (mysqli_num_rows($select_book) > 0) {
-        $message[] = 'This Book is alredy in your cart';
+    if ($stmt->rowCount() > 0) {
+        $message[] = 'This Book is already in your cart';
     } else {
-        $conn->query("INSERT INTO cart (`book_id`,`user_id`,`name`, `price`, `image`, `quantity` ,`total`) VALUES('$book_id','$user_id','$book_name','$book_price','$book_image','$book_quantity', '$total_price')") or die('Add to cart Query failed');
+        $stmt = $conn->prepare("INSERT INTO cart (`book_id`,`user_id`,`name`, `price`, `image`, `quantity` ,`total`) VALUES(?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$book_id, $user_id, $book_name, $book_price, $book_image, $book_quantity, $total_price]);
         $message[] = 'Book Added To Cart Successfully';
     }
 }
@@ -87,9 +89,10 @@ if (isset($_POST['add_to_cart'])) {
         <?php
         if (isset($_GET['details'])) {
             $get_id = $_GET['details'];
-            $get_book = mysqli_query($conn, "SELECT * FROM `book_info` WHERE bid = '$get_id'") or die('query failed');
-            if (mysqli_num_rows($get_book) > 0) {
-                while ($fetch_book = mysqli_fetch_assoc($get_book)) {
+            $stmt = $conn->prepare("SELECT * FROM `book_info` WHERE bid = ?");
+            $stmt->execute([$get_id]);
+            if ($stmt->rowCount() > 0) {
+                while ($fetch_book = $stmt->fetch(PDO::FETCH_ASSOC)) {
         ?>
                     <div class="row_box">
                         <form style="display: flex ;" action="" method="POST">

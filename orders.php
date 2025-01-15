@@ -5,8 +5,8 @@ session_start();
 
 $user_id = $_SESSION['user_id'];
 
-if(!isset($user_id)){
-   header('location:login.php');
+if (!isset($user_id)) {
+    header('location:login.php');
 }
 
 ?>
@@ -75,9 +75,10 @@ if(!isset($user_id)){
    <div class="box-container">
 
       <?php
-        $select_book = mysqli_query($conn, "SELECT * FROM `confirm_order`WHERE user_id = '$user_id' ORDER BY order_date DESC") or die('query failed');
-        if(mysqli_num_rows($select_book) > 0){
-            while($fetch_book = mysqli_fetch_assoc($select_book)){
+        $stmt = $conn->prepare("SELECT * FROM `confirm_order` WHERE user_id = :user_id ORDER BY order_date DESC");
+        $stmt->execute(['user_id' => $user_id]);
+        if ($stmt->rowCount() > 0) {
+            while ($fetch_book = $stmt->fetch(PDO::FETCH_ASSOC)) {
       ?>
       <div class="box">
          <p> Order Date : <span><?php echo $fetch_book['order_date']; ?></span> </p>
@@ -97,20 +98,13 @@ if(!isset($user_id)){
          </form> -->
       <?php
        }
-      }else{
+      } else {
          echo '<p class="empty">You have not placed any order yet!!!!</p>';
       }
       ?>
    </div>
 
 </section>
-
-
-
-
-
-
-
 
 <?php include 'index_footer.php'; ?>
 

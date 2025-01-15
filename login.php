@@ -3,34 +3,30 @@ include 'config.php';
 session_start();
 
 if (isset($_POST['login'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $stmt = $conn->prepare("SELECT * FROM users_info WHERE email = :email AND password = :password");
+    $stmt->execute(['email' => $email, 'password' => $password]);
 
-
-   $select_users = $conn->query("SELECT * FROM users_info WHERE email = '$email' and password='$password' ") or die('query failed');
-
-    if (mysqli_num_rows($select_users) ==1) {
-
-        $row = mysqli_fetch_assoc($select_users);
+    if ($stmt->rowCount() == 1) {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row['user_type'] == 'Admin') {
             $_SESSION['admin_name'] = $row['name'];
             $_SESSION['admin_email'] = $row['email'];
             $_SESSION['admin_id'] = $row['Id'];
             header('location:admin_index.php');
-
         } elseif ($row['user_type'] == 'User') {
-                $_SESSION['user_name'] = $row['name'];
-                $_SESSION['user_email'] = $row['email'];
-                $_SESSION['user_id'] = $row['Id'];
-                header('location:index.php');
-            }
+            $_SESSION['user_name'] = $row['name'];
+            $_SESSION['user_email'] = $row['email'];
+            $_SESSION['user_id'] = $row['Id'];
+            header('location:index.php');
         }
-        else {
-            $message[] = 'Incorrect Email Id or Password!';
-        }
+    } else {
+        $message[] = 'Incorrect Email Id or Password!';
     }
+}
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +68,6 @@ if(isset($message)){
             <p>Don't have an Account? <br> <a class="link" href="Register.php">Sign Up</a><a class="link" href="index.php">Back</a></p>
         </form>
     </div>
-
 
     <script>
 setTimeout(() => {

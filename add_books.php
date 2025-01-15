@@ -10,15 +10,14 @@ if(!isset($admin_id)){
 };
 
 if (isset($_POST['add_books'])) {
-  $bname = mysqli_real_escape_string($conn, $_POST['bname']);
-  $btitle = mysqli_real_escape_string($conn, $_POST['btitle']);
-  $category = mysqli_real_escape_string($conn, $_POST['Category']);
+  $bname = $_POST['bname'];
+  $btitle = $_POST['btitle'];
+  $category = $_POST['Category'];
   $price = $_POST['price'];
-  $desc = mysqli_real_escape_string($conn, ($_POST['bdesc']));
+  $desc = $_POST['bdesc'];
   $img = $_FILES["image"]["name"];
   $img_temp_name = $_FILES["image"]["tmp_name"];
   $img_file = "./added_books/" . $img;
-
 
   if (empty($bname)) {
     $message[] = 'Please Enter book name';
@@ -33,11 +32,10 @@ if (isset($_POST['add_books'])) {
   } elseif (empty($img)) {
     $message[] = 'Please Choose Image';
   } else {
+    $stmt = $conn->prepare("INSERT INTO book_info(`name`, `title`, `price`, `category`, `description`, `image`) VALUES(?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$bname, $btitle, $price, $category, $desc, $img]);
 
-    $add_book = mysqli_query($conn, "INSERT INTO book_info(`name`, `title`, `price`, `category`, `description`, `image`) VALUES('$bname','$btitle','$price','$category','$desc','$img')") or die('Query failed');
-
-    if ($add_book) {
-
+    if ($stmt) {
       move_uploaded_file($img_temp_name, $img_file);
       $message[] = 'New Book Added Successfully';
     } else {
@@ -48,20 +46,21 @@ if (isset($_POST['add_books'])) {
 
 if(isset($_GET['delete'])){
   $delete_id = $_GET['delete'];
-  mysqli_query($conn, "DELETE FROM `book_info` WHERE bid = '$delete_id'") or die('query failed');
+  $stmt = $conn->prepare("DELETE FROM `book_info` WHERE bid = ?");
+  $stmt->execute([$delete_id]);
   header('location:add_books.php');
 }
 
-
 if(isset($_POST['update_product'])){
-
   $update_p_id = $_POST['update_p_id'];
   $update_name = $_POST['update_name'];
   $update_title = $_POST['update_title'];
   $update_description = $_POST['update_description'];
   $update_price = $_POST['update_price'];
+  $update_category = $_POST['update_category'];
 
-  mysqli_query($conn, "UPDATE `book_info` SET name = '$update_name', title='$update_title', description ='$update_description', price = '$update_price',category='$update_category' WHERE bid = '$update_p_id'") or die('query failed');
+  $stmt = $conn->prepare("UPDATE `book_info` SET name = ?, title = ?, description = ?, price = ?, category = ? WHERE bid = ?");
+  $stmt->execute([$update_name, $update_title, $update_description, $update_price, $update_category, $update_p_id]);
 
   $update_image = $_FILES['update_image']['name'];
   $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
@@ -73,16 +72,15 @@ if(isset($_POST['update_product'])){
      if($update_image_size > 2000000){
         $message[] = 'image file size is too large';
      }else{
-        mysqli_query($conn, "UPDATE `book_info` SET image = '$update_image' WHERE bid = '$update_p_id'") or die('query failed');
+        $stmt = $conn->prepare("UPDATE `book_info` SET image = ? WHERE bid = ?");
+        $stmt->execute([$update_image, $update_p_id]);
         move_uploaded_file($update_image_tmp_name, $update_folder);
         unlink('uploaded_img/'.$update_old_image);
      }
   }
 
   header('location:./add_books.php');
-
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -134,9 +132,10 @@ if(isset($_POST['update_product'])){
 <?php
    if(isset($_GET['update'])){
       $update_id = $_GET['update'];
-      $update_query = mysqli_query($conn, "SELECT * FROM `book_info` WHERE bid = '$update_id'") or die('query failed');
-      if(mysqli_num_rows($update_query) > 0){
-         while($fetch_update = mysqli_fetch_assoc($update_query)){
+      $stmt = $conn->prepare("SELECT * FROM `book_info` WHERE bid = ?");
+      $stmt->execute([$update_id]);
+      if($stmt->rowCount() > 0){
+         while($fetch_update = $stmt->fetch(PDO::FETCH_ASSOC)){
 ?>
 <form action="" method="post" enctype="multipart/form-data">
    <input type="hidden" name="update_p_id" value="<?php echo $fetch_update['bid']; ?>">
@@ -169,9 +168,10 @@ if(isset($_POST['update_product'])){
    <div class="box-container">
 
       <?php
-         $select_book = mysqli_query($conn, "SELECT * FROM book_info ORDER BY date DESC LIMIT 2;") or die('query failed');
-         if(mysqli_num_rows($select_book) > 0){
-            while($fetch_book = mysqli_fetch_assoc($select_book)){
+         $stmt = $conn->prepare("SELECT * FROM book_info ORDER BY date DESC LIMIT 2;");
+         $stmt->execute();
+         if($stmt->rowCount() > 0){
+            while($fetch_book = $stmt->fetch(PDO::FETCH_ASSOC)){
       ?>
       <div class="box">
          <img class="books_images" src="added_books/<?php echo $fetch_book['image']; ?>" alt="">
@@ -196,9 +196,10 @@ if(isset($_POST['update_product'])){
    <?php
       if(isset($_GET['update'])){
          $update_id = $_GET['update'];
-         $update_query = mysqli_query($conn, "SELECT * FROM `book_info` WHERE bid = '$update_id'") or die('query failed');
-         if(mysqli_num_rows($update_query) > 0){
-            while($fetch_update = mysqli_fetch_assoc($update_query)){
+         $stmt = $conn->prepare("SELECT * FROM `book_info` WHERE bid = ?");
+         $stmt->execute([$update_id]);
+         if($stmt->rowCount() > 0){
+            while($fetch_update = $stmt->fetch(PDO::FETCH_ASSOC)){
    ?>
    <form action="" method="post" enctype="multipart/form-data">
       <input type="hidden" name="update_p_id" value="<?php echo $fetch_update['bid']; ?>">

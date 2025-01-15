@@ -18,19 +18,27 @@ if (isset($_POST['add_to_cart'])) {
 
         $total_price = number_format($book_price * $book_quantity);
 
-        $select_book = $conn->query("SELECT * FROM cart WHERE book_id= '$book_id' AND user_id='$user_id' ") or die('query failed');
+        $select_book = $conn->prepare("SELECT * FROM cart WHERE book_id= :book_id AND user_id= :user_id");
+        $select_book->execute(['book_id' => $book_id, 'user_id' => $user_id]);
 
-        if (mysqli_num_rows($select_book) > 0) {
-            $message[] = 'This Book is alredy in your cart';
+        if ($select_book->rowCount() > 0) {
+            $message[] = 'This Book is already in your cart';
         } else {
-            $conn->query("INSERT INTO cart (`user_id`,`book_id`,`name`, `price`, `image`,`quantity` ,`total`) VALUES('$user_id','$book_id','$book_name','$book_price','$book_image','$book_quantity', '$total_price')") or die('Add to cart Query failed');
+            $insert_book = $conn->prepare("INSERT INTO cart (user_id, book_id, name, price, image, quantity, total) VALUES (:user_id, :book_id, :name, :price, :image, :quantity, :total)");
+            $insert_book->execute([
+                'user_id' => $user_id,
+                'book_id' => $book_id,
+                'name' => $book_name,
+                'price' => $book_price,
+                'image' => $book_image,
+                'quantity' => $book_quantity,
+                'total' => $total_price
+            ]);
             $message[] = 'Book Added To Cart Successfully';
             header('location:index.php');
         }
     }
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,31 +58,31 @@ if (isset($_POST['add_to_cart'])) {
             border: none;
         }
         .message {
-  position: sticky;
-  top: 0;
-  margin: 0 auto;
-  width: 61%;
-  background-color: #fff;
-  padding: 6px 9px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 100;
-  gap: 0px;
-  border: 2px solid rgb(68, 203, 236);
-  border-top-right-radius: 8px;
-  border-bottom-left-radius: 8px;
-}
-.message span {
-  font-size: 22px;
-  color: rgb(240, 18, 18);
-  font-weight: 400;
-}
-.message i {
-  cursor: pointer;
-  color: rgb(3, 227, 235);
-  font-size: 15px;
-}
+            position: sticky;
+            top: 0;
+            margin: 0 auto;
+            width: 61%;
+            background-color: #fff;
+            padding: 6px 9px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            gap: 0px;
+            border: 2px solid rgb(68, 203, 236);
+            border-top-right-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+        .message span {
+            font-size: 22px;
+            color: rgb(240, 18, 18);
+            font-weight: 400;
+        }
+        .message i {
+            cursor: pointer;
+            color: rgb(3, 227, 235);
+            font-size: 15px;
+        }
     </style>
 </head>
 
@@ -90,7 +98,6 @@ if (isset($_POST['add_to_cart'])) {
         }
     }
     ?>
-
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -135,9 +142,9 @@ if (isset($_POST['add_to_cart'])) {
         <div class="box-container">
 
             <?php
-            $select_book = mysqli_query($conn, "SELECT * FROM `book_info` ORDER BY date DESC LIMIT 8") or die('query failed');
-            if (mysqli_num_rows($select_book) > 0) {
-                while ($fetch_book = mysqli_fetch_assoc($select_book)) {
+            $select_book = $conn->query("SELECT * FROM `book_info` ORDER BY date DESC LIMIT 8") or die('query failed');
+            if ($select_book->rowCount() > 0) {
+                while ($fetch_book = $select_book->fetch(PDO::FETCH_ASSOC)) {
             ?>
 
                     <div class="box" style="width: 255px; height:355px;">
@@ -182,9 +189,9 @@ if (isset($_POST['add_to_cart'])) {
         <div class="box-container">
 
             <?php
-            $select_book = mysqli_query($conn, "SELECT * FROM `book_info` where category='Adventure'") or die('query failed');
-            if (mysqli_num_rows($select_book) > 0) {
-                while ($fetch_book = mysqli_fetch_assoc($select_book)) {
+            $select_book = $conn->query("SELECT * FROM `book_info` where category='Adventure'") or die('query failed');
+            if ($select_book->rowCount() > 0) {
+                while ($fetch_book = $select_book->fetch(PDO::FETCH_ASSOC)) {
             ?>
 
                     <div class="box" style="width: 255px;height: 355px;">
@@ -228,9 +235,9 @@ if (isset($_POST['add_to_cart'])) {
         <div class="box-container">
 
             <?php
-            $select_book = mysqli_query($conn, "SELECT * FROM `book_info` where category='Magic'") or die('query failed');
-            if (mysqli_num_rows($select_book) > 0) {
-                while ($fetch_book = mysqli_fetch_assoc($select_book)) {
+            $select_book = $conn->query("SELECT * FROM `book_info` where category='Magic'") or die('query failed');
+            if ($select_book->rowCount() > 0) {
+                while ($fetch_book = $select_book->fetch(PDO::FETCH_ASSOC)) {
             ?>
 
                     <div class="box" style="width: 255px;height: 355px;">
@@ -273,9 +280,9 @@ if (isset($_POST['add_to_cart'])) {
         <div class="box-container">
 
             <?php
-            $select_book = mysqli_query($conn, "SELECT * FROM `book_info` Where category='knowledge'") or die('query failed');
-            if (mysqli_num_rows($select_book) > 0) {
-                while ($fetch_book = mysqli_fetch_assoc($select_book)) {
+            $select_book = $conn->query("SELECT * FROM `book_info` Where category='knowledge'") or die('query failed');
+            if ($select_book->rowCount() > 0) {
+                while ($fetch_book = $select_book->fetch(PDO::FETCH_ASSOC)) {
             ?>
 
                     <div class="box" style="width: 255px;height: 355px;">
