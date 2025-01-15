@@ -18,7 +18,7 @@ if (isset($_POST['add_to_cart'])) {
 
         $total_price = number_format($book_price * $book_quantity);
 
-        $select_book = $conn->prepare("SELECT * FROM cart WHERE book_id= :book_id AND user_id= :user_id");
+        $select_book = $conn->prepare("SELECT * FROM cart WHERE book_id= :book_id AND user_id= :user_id " );
         $select_book->execute(['book_id' => $book_id, 'user_id' => $user_id]);
 
         if ($select_book->rowCount() > 0) {
@@ -280,7 +280,7 @@ if (isset($_POST['add_to_cart'])) {
         <div class="box-container">
 
             <?php
-            $select_book = $conn->query("SELECT * FROM `book_info` Where category='knowledge'") or die('query failed');
+            $select_book = $conn->query("SELECT * FROM `book_info` Where category='knowledge' ") or die('query failed');
             if ($select_book->rowCount() > 0) {
                 while ($fetch_book = $select_book->fetch(PDO::FETCH_ASSOC)) {
             ?>
