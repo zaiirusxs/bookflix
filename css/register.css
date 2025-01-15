@@ -21,7 +21,7 @@ html {
       rgba(0, 0, 3, 0.1),
       rgba(0, 0, 0, 0.5)
     ),
-    url(../bgimg/3.jpg);
+    url(../bgimg/back.jpg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
