@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2023 at 08:22 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Jan 15, 2025 at 09:33 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,26 +36,26 @@ CREATE TABLE `book_info` (
   `description` text NOT NULL,
   `image` varchar(10) NOT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `book_info`
 --
 
 INSERT INTO `book_info` (`bid`, `name`, `title`, `price`, `category`, `description`, `image`, `date`) VALUES
-(72, 'Atomic Habits', 'James C', '699', 'knowledge', 'Her imaginative childrens books feature many natural animals that can be found in the British countryside', 'ah.png', '2023-02-23 13:14:49'),
-(81, 'Darwin', 'Darwin D.', '469', 'knowledge', 'Beatrix Potter ', 'sddxc.jpg', '2023-02-24 10:54:38'),
-(83, 'Capture The Crown ', 'Jennifer E.', '633', 'Magic', 'From the author of The Witch Boy trilogy comes a graphic novel about family, romance, and first love', 'gf.jpg', '2023-02-24 10:56:14'),
-(84, 'Crush The King ', 'Jennifer L', '566', 'knowledge', 'These stories are carefully chosen to highlight the power of the gods and how sometimes the demons challenge it. The stories are narrated in a way that would be suitable for children and ensures small moral lessons in each story. Children will learn that there are no short cuts to success, and our confidence is our biggest super power.', 'uuh.jpg', '2023-02-24 10:58:12'),
-(85, 'Stephen King', 'Carre', '545', 'Adventure', 'The political struggle in the ancient city of Hastinapur is escalating as the Pandavas and Kauravas are on the verge of war. But its the rise of the demonic Asura King, Mahendrasura, that most troubles Krishna. Fueled by vengeance, Mahendrasura is not looking to just win a battle. Instead, he in search of dark powers to eradicate humanity once and for all.', 'FGGH.jpg', '2023-02-24 10:58:53'),
-(86, 'The Winter King', 'Christ C', '65', 'knowledge', 'Trapped in an era beyond his wildest dreams, Abhay has managed to land right in the middle of all these conflicts. Along with Krishna and Suryaputra Karna, the responsibility to save the past, the present, and the future of mankind has fallen on Abhays shoulders. And for that, he must unlock ancient puzzles, encounter mythical beasts - and confront his terrifying destiny!', 'ghfh.jpg', '2023-02-24 10:59:29'),
-(88, 'Ray Bearer', 'Jordan I.', '999', 'Magic', 'Once upon a time there were four little Rabbits, and their names were -- ', 'jjj.jpg', '2023-02-24 11:05:00'),
-(89, 'The Sea Girl', 'Adriene ', '699', '', 'From the authovel about family, romance, and first love. ', 'jhj.jfif', '2023-02-24 11:07:51'),
-(90, 'Love Boat', 'Abile Hing', '499', 'Adventure', 'Feel the power of strength and banding together come alive through the celebration of our very own female animal characters in Lili the Lioness & Friends. Written, designed and produced in-house, this impactful read highlights the importance of community ', 'jkkj.jpg', '2023-02-24 11:25:52'),
-(93, 'Seventh Sun', ' Lani Forbes', '560', 'Magic', 'The terrible Asuras are pretty notorious. These demons have decided to spread chaos across the world and win over heaven. Here comes an Asura trying to kidnap mother Earth', 'kjljl.jpg', '2023-02-24 11:55:58'),
-(94, 'Sunrise', 'Jhon D', '800', 'Magic', 'Charming but venturesome college student, Abhay Sharma, always thought the Mahabharata was just a story; until he set out to explore the secrets of an ancient temple – and finds himself transported five thousand years back in time!', 'hujh.jpg', '2023-02-24 11:57:02'),
-(95, 'Batman Knight', 'DC', '789', 'Adventure', 'This collection of adorable stories for children show us how the Asuras tried to defeat the Devas, and how the gods ultimately won over. These stories will entertain, educate and provide healthy enjoyment to the readers.', 'kjkjl.jpg', '2023-02-24 11:59:54'),
-(96, 'Last Blood ', 'Alexander G', '500', '', 'The political struggle in the ancient city of Hastinapur is escalating as the Pandavas and Kauravas are on the verge of war. But its the rise of the demonic Asura King, Mahendrasura, that most troubles Krishna. Fueled by vengeance, Mahendrasura is not looking to just win a battle. Instead, he in search of dark powers to eradicate humanity once and for all.', 'hjhj.jpg', '2023-02-24 12:12:30');
+(72, 'Atomic Habits', 'James C', 699, 'knowledge', 'Her imaginative childrens books feature many natural animals that can be found in the British countryside', 'ah.png', '2023-02-23 13:14:49'),
+(81, 'Darwin', 'Darwin D.', 469, 'knowledge', 'Beatrix Potter ', 'sddxc.jpg', '2023-02-24 10:54:38'),
+(83, 'Capture The Crown ', 'Jennifer E.', 633, 'Magic', 'From the author of The Witch Boy trilogy comes a graphic novel about family, romance, and first love', 'gf.jpg', '2023-02-24 10:56:14'),
+(84, 'Crush The King ', 'Jennifer L', 566, 'knowledge', 'These stories are carefully chosen to highlight the power of the gods and how sometimes the demons challenge it. The stories are narrated in a way that would be suitable for children and ensures small moral lessons in each story. Children will learn that there are no short cuts to success, and our confidence is our biggest super power.', 'uuh.jpg', '2023-02-24 10:58:12'),
+(85, 'Stephen King', 'Carre', 545, 'Adventure', 'The political struggle in the ancient city of Hastinapur is escalating as the Pandavas and Kauravas are on the verge of war. But its the rise of the demonic Asura King, Mahendrasura, that most troubles Krishna. Fueled by vengeance, Mahendrasura is not looking to just win a battle. Instead, he in search of dark powers to eradicate humanity once and for all.', 'FGGH.jpg', '2023-02-24 10:58:53'),
+(86, 'The Winter King', 'Christ C', 65, 'knowledge', 'Trapped in an era beyond his wildest dreams, Abhay has managed to land right in the middle of all these conflicts. Along with Krishna and Suryaputra Karna, the responsibility to save the past, the present, and the future of mankind has fallen on Abhays shoulders. And for that, he must unlock ancient puzzles, encounter mythical beasts - and confront his terrifying destiny!', 'ghfh.jpg', '2023-02-24 10:59:29'),
+(88, 'Ray Bearer', 'Jordan I.', 999, 'Magic', 'Once upon a time there were four little Rabbits, and their names were -- ', 'jjj.jpg', '2023-02-24 11:05:00'),
+(89, 'The Sea Girl', 'Adriene ', 699, '', 'From the authovel about family, romance, and first love. ', 'jhj.jfif', '2023-02-24 11:07:51'),
+(90, 'Love Boat', 'Abile Hing', 499, 'Adventure', 'Feel the power of strength and banding together come alive through the celebration of our very own female animal characters in Lili the Lioness & Friends. Written, designed and produced in-house, this impactful read highlights the importance of community ', 'jkkj.jpg', '2023-02-24 11:25:52'),
+(93, 'Seventh Sun', ' Lani Forbes', 560, 'Magic', 'The terrible Asuras are pretty notorious. These demons have decided to spread chaos across the world and win over heaven. Here comes an Asura trying to kidnap mother Earth', 'kjljl.jpg', '2023-02-24 11:55:58'),
+(94, 'Sunrise', 'Jhon D', 800, 'Magic', 'Charming but venturesome college student, Abhay Sharma, always thought the Mahabharata was just a story; until he set out to explore the secrets of an ancient temple – and finds himself transported five thousand years back in time!', 'hujh.jpg', '2023-02-24 11:57:02'),
+(95, 'Batman Knight', 'DC', 789, 'Adventure', 'This collection of adorable stories for children show us how the Asuras tried to defeat the Devas, and how the gods ultimately won over. These stories will entertain, educate and provide healthy enjoyment to the readers.', 'kjkjl.jpg', '2023-02-24 11:59:54'),
+(96, 'Last Blood ', 'Alexander G', 500, '', 'The political struggle in the ancient city of Hastinapur is escalating as the Pandavas and Kauravas are on the verge of war. But its the rise of the demonic Asura King, Mahendrasura, that most troubles Krishna. Fueled by vengeance, Mahendrasura is not looking to just win a battle. Instead, he in search of dark powers to eradicate humanity once and for all.', 'hjhj.jpg', '2023-02-24 12:12:30');
 
 -- --------------------------------------------------------
 
@@ -73,14 +73,36 @@ CREATE TABLE `cart` (
   `quantity` int(25) NOT NULL,
   `total` double(10,2) NOT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `cart`
 --
 
 INSERT INTO `cart` (`id`, `book_id`, `user_id`, `name`, `price`, `image`, `quantity`, `total`, `date`) VALUES
-(162, 96, 51, 'Last Blood ', 499, 'hjhj.jpg', 3, 1.00, '2023-03-10 14:44:26');
+(164, 96, 51, 'Last Blood ', 500, 'hjhj.jpg', 1, 500.00, '2025-01-15 15:34:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`) VALUES
+(1, 'Anime'),
+(2, 'Knowledge'),
+(3, 'Adventure'),
+(4, 'Magic'),
+(5, 'New Arrived');
 
 -- --------------------------------------------------------
 
@@ -101,15 +123,15 @@ CREATE TABLE `confirm_order` (
   `payment_status` varchar(100) NOT NULL DEFAULT 'pending',
   `date` varchar(20) NOT NULL,
   `total_price` double(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `confirm_order`
 --
 
 INSERT INTO `confirm_order` (`order_id`, `user_id`, `name`, `email`, `number`, `address`, `payment_method`, `total_books`, `order_date`, `payment_status`, `date`, `total_price`) VALUES
-(31, 51, 'rtyrty', 'pawan@gmail.coma', 0, 'yey, brtb, hrthgeg,  6ygege - 6546', 'cash on delivery', ' pawan #46,(1)  yukuyk #44,(1)  sdfsd #54,(1) ', '24-Feb-2023', 'completed', '24.02.2023', 7102.00),
-(32, 51, 'dsdd', 'pawan@gmail.coma', 2147483647, 'hrthgerg, 747hfh, brt,  ygege - 6546', 'Debit card', ' iuji #89,(1)  Ray Bearer #88,(1) ', '24-Feb-2023', 'completed', '10.03.2023', 6424.00);
+(32, 51, 'dsdd', 'pawan@gmail.coma', 2147483647, 'hrthgerg, 747hfh, brt,  ygege - 6546', 'Debit card', ' iuji #89,(1)  Ray Bearer #88,(1) ', '24-Feb-2023', 'completed', '15.01.2025', 6424.00),
+(33, 51, 'jesriel', 'jes@gmail.com', 1964418943, 'dasdsa51496, dasdasdh, asddas, Philippines - 6010', 'cash on delivery', ' Last Blood  #96,(3)  Sunrise #94,(1) ', '15-Jan-2025', 'pending', '', 2297.00);
 
 -- --------------------------------------------------------
 
@@ -125,7 +147,7 @@ CREATE TABLE `msg` (
   `number` int(20) NOT NULL,
   `msg` text NOT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `msg`
@@ -134,7 +156,9 @@ CREATE TABLE `msg` (
 INSERT INTO `msg` (`id`, `user_id`, `name`, `email`, `number`, `msg`, `date`) VALUES
 (6, 51, 'pawan ', 'pawan@gmail.com', 2147483647, 'MOST DANGEROUS GAME AND OTHER STORIES OF ADVENTURE, THE \r\n\r\nis there availability', '2023-02-23 13:41:50'),
 (7, 51, 'dfbgf', 'hdgfh@vszv', 0, 'dh', '2023-02-23 13:47:26'),
-(8, 51, 'sv', 'jisaxih205@minterp.c', 0, 'xhf', '2023-02-23 13:49:56');
+(8, 51, 'sv', 'jisaxih205@minterp.c', 0, 'xhf', '2023-02-23 13:49:56'),
+(10, 51, 'heinz', 'floreslawrence17@out', 2147483647, 'hi', '2025-01-15 13:57:08'),
+(11, 51, 'ricksel', 'rick7@outlook.com', 131632, 'alalallalala', '2025-01-15 14:20:09');
 
 -- --------------------------------------------------------
 
@@ -155,7 +179,7 @@ CREATE TABLE `orders` (
   `quantity` int(10) NOT NULL,
   `sub_total` double(10,2) NOT NULL,
   `payment_status` varchar(100) NOT NULL DEFAULT 'pending'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
@@ -196,7 +220,9 @@ INSERT INTO `orders` (`id`, `user_id`, `address`, `city`, `state`, `country`, `p
 (31, 51, 'yey', 'brtb', 'hrthgeg', ' 6ygege', 6546, 'yukuyk', 6545.00, 1, 6545.00, 'pending'),
 (31, 51, 'yey', 'brtb', 'hrthgeg', ' 6ygege', 6546, 'sdfsd', 435.00, 1, 435.00, 'pending'),
 (32, 51, 'hrthgerg', '747hfh', 'brt', ' ygege', 6546, 'iuji', 5425.00, 1, 5425.00, 'pending'),
-(32, 51, 'hrthgerg', '747hfh', 'brt', ' ygege', 6546, 'Ray Bearer', 999.00, 1, 999.00, 'pending');
+(32, 51, 'hrthgerg', '747hfh', 'brt', ' ygege', 6546, 'Ray Bearer', 999.00, 1, 999.00, 'pending'),
+(33, 51, 'dasdsa51496', 'dasdasdh', 'asddas', 'Philippines', 6010, 'Last Blood ', 499.00, 3, 1497.00, 'pending'),
+(33, 51, 'dasdsa51496', 'dasdasdh', 'asddas', 'Philippines', 6010, 'Sunrise', 800.00, 1, 800.00, 'pending');
 
 -- --------------------------------------------------------
 
@@ -211,7 +237,7 @@ CREATE TABLE `users_info` (
   `email` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
   `user_type` varchar(20) NOT NULL DEFAULT 'user'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users_info`
@@ -219,8 +245,7 @@ CREATE TABLE `users_info` (
 
 INSERT INTO `users_info` (`Id`, `name`, `surname`, `email`, `password`, `user_type`) VALUES
 (51, 'pawan', 'pawan', 'pawan@gmail.com', '12345678', 'User'),
-(52, 'pawan111', 'pawan111', 'pawan@gmail.com1', '12345678', 'Admin'),
-(53, 'pawan', 'pawan', 'pawan@gmail.coma', '12345678', 'Admin');
+(52, 'pawan111', 'pawan111', 'pawan@gmail.com1', '12345678', 'Admin');
 
 --
 -- Indexes for dumped tables
@@ -236,6 +261,12 @@ ALTER TABLE `book_info`
 -- Indexes for table `cart`
 --
 ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -270,19 +301,25 @@ ALTER TABLE `book_info`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `confirm_order`
 --
 ALTER TABLE `confirm_order`
-  MODIFY `order_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `order_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `msg`
 --
 ALTER TABLE `msg`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users_info`
