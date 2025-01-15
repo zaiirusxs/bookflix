@@ -69,7 +69,7 @@ if (isset($_POST['add_to_cart'])) {
             justify-content: space-between;
             z-index: 100;
             gap: 0px;
-            border: 2px solid rgb(68, 203, 236);
+            border: 2px solid red;
             border-top-right-radius: 8px;
             border-bottom-left-radius: 8px;
         }
@@ -80,7 +80,7 @@ if (isset($_POST['add_to_cart'])) {
         }
         .message i {
             cursor: pointer;
-            color: rgb(3, 227, 235);
+            color: red;
             font-size: 15px;
         }
     </style>

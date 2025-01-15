@@ -65,7 +65,7 @@ if (isset($_POST['add_to_cart'])) {
 }
 .message i {
   cursor: pointer;
-  color: rgb(3, 227, 235);
+  color: red;
   font-size: 15px;
 }
     </style>

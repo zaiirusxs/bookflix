@@ -54,7 +54,7 @@ if (isset($_POST['update'])) {
             color: black;
         }
         .cart-btn2 {
-            background-color: rgb(0, 167, 245);
+            background-color: red;
             color: black;
         }
         .message {
@@ -80,7 +80,7 @@ if (isset($_POST['update'])) {
         }
         .message i {
             cursor: pointer;
-            color: rgb(3, 227, 235);
+            color: red;
             font-size: 15px;
         }
     </style>

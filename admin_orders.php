@@ -116,7 +116,7 @@ if (isset($_GET['delete'])) {
             justify-content: space-between;
             z-index: 100;
             gap: 0px;
-            border: 2px solid rgb(68, 203, 236);
+            border: 2px solid red;
             border-top-right-radius: 8px;
             border-bottom-left-radius: 8px;
         }
