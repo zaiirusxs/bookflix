@@ -43,7 +43,7 @@
   }
   .nav a {
     padding: 0.5rem 1rem;
-    color: rgb(9, 152, 248);
+    color: red;
     font-weight: 600;
     transition: 0.2s ease;
   }
@@ -240,7 +240,7 @@ td .book_info img{
     transition: 0.5s;
   }
   .contact-form-text:focus{
-    box-shadow: 0 0 10px 4px rgb(0, 167, 245);
+    box-shadow: 0 0 10px 4px red;
   }
   textarea.contact-form-text{
     resize: none;
@@ -257,14 +257,14 @@ td .book_info img{
     transition: 0.5s;
   }
   .contact-form-btn:hover{
-    background: rgb(0, 167, 245);
+    background: red;
   }
   
   /* ********************CONTACT PAGE************* */
 
   /* Style The Dropdown Button */
   header .nav .dropdown .dropbtn {
-  color: rgb(0, 167, 245);
+  color: red;
   padding: 8px 10px;
   font-weight: bold;
   border: none;

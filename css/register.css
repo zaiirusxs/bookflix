@@ -70,7 +70,7 @@ html {
   padding: 13px 13px;
   font-size: 15px;
   color: black;
-  border: 2px solid rgb(0, 181, 226);
+  border: 2px solid red;
 }
 .container form p,
 .container_box form p {
@@ -91,7 +91,7 @@ html {
 }
 .container form .btn:hover,
 .container_box form .btn:hover {
-  background: rgb(0, 167, 245);
+  background: red;
   border-radius: 8px solid rgb(248, 240, 240);
   cursor: pointer;
 }
@@ -115,12 +115,12 @@ html {
 }
 .message span {
   font-size: 22px;
-  color: rgb(240, 18, 18);
+  color: red;
   font-weight: 400;
 }
 .message i {
   cursor: pointer;
-  color: rgb(3, 227, 235);
+  color: red;
   font-size: 15px;
 }
 
@@ -143,7 +143,7 @@ html {
   text-align: center;
   padding: 12px;
   border-radius: 0.5rem;
-  border: 2px solid rgb(15, 156, 221);
+  border: 2px solid red;
 }
 
 .show-products .box-container .box img {
@@ -211,7 +211,7 @@ html {
 .edit-product-form form .box {
   margin: 6px 0;
   padding: 1rem 3.4rem;
-  border: 2px solid rgb(76, 202, 240);
+  border: 2px solid red;
   border-radius: 0.5rem;
   background-color: white;
   font-size: 18px;
